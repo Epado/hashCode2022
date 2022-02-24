@@ -140,16 +140,8 @@ const index = function () {
   const fileName = process.argv.pop();
   const { devs, projects } = get(fileName);
   //   console.log({ devs, projects }); // OK
-  devs.forEach((d) => console.log(d.skills));
-  projects.forEach((d) => console.log(d.reqSkills));
-  // fs.readdir('./inputFiles', (err, files) => {
-  //     files.forEach(file => {
-  //         const structure = readFile(`./inputFiles/${file}`)
-  //         const optimization = runOptimization(structure)
-  //         const result = stringify(optimization)
-  //         writeFile(`${file}`, result)
-  //     });
-  // });
+  //   devs.forEach((d) => console.log(d.skills)); // OK
+  //   projects.forEach((d) => console.log(d.reqSkills)); // OK
 };
 
 index();
