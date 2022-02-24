@@ -33,9 +33,13 @@ function getRightDevs(devs, project) {
         avDevs.findIndex((d) => d.name === chosenDev.name),
         1
       );
-      chosenDev.skills.find((s) => s.name === skill.name).currentLv++;
     } else return [];
   }
+
+  toRet.forEach((dev, i) => {
+    dev.skills.find((s) => s.name === project.reqSkills[i].name).currentLv++;
+  })
+
 
   return toRet;
 }
@@ -54,7 +58,10 @@ export default function optimizeSimplified(devs, projects) {
   const toRet = [];
   // console.log({ project: orderedProject[1], s: orderedProject[1].reqSkills });
   // const project = orderedProject[1];
+  const upperBound = orderedProject.length * 2;
+  let i = 0;
   for (const project of orderedProject) {
+    if (i++ > upperBound) break;
     // console.log({ project });
     const rightDevs = getRightDevs(devs, project);
     // console.log({ rightDevs });
