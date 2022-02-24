@@ -70,6 +70,63 @@ const isMatching = function (server, row, col, unavail_coord, max_cols){
     return true
 }
 
+const isUnavailable = function(row,col,unavail_coord){
+    const coord = unavail_coord.filter(elem => (elem[0] === row) && (elem[1] === col))
+    return coord.length > 0
+}
+
+const runOptimization = function (structure){
+    let optimization = []
+    structure.servers_numbers = structure.servers_numbers.sort((first, second) => {
+     return (second[1] - first[1])
+    })
+
+
+    let pool = 0
+    const getPool = function (max_pool){
+        pool ++
+        if(pool >= max_pool){
+            pool = 0
+        }
+        return pool
+    }
+    for(let row = 0; row < structure.rows; row++){
+        for(let col = 0; col < structure.slots; col++){
+            if(!isUnavailable(row,col,structure.unavail_coord)){
+                const server = structure.servers_numbers.shift()
+                if(server){
+                    if(isMatching(server,row,col,structure.unavail_coord,structure.slots)){
+                        optimization.push([row,col,getPool(structure.pool),server[2]])
+                        col = col + server[0]
+                    }
+                    else{
+                        optimization.push(['x',server[2]])
+                        col--
+                    }
+                }
+                else{
+                    col --
+                }
+            }
+        }
+    }
+    for(let i = 0; i < structure.servers_numbers.length; i++){
+        const server = structure.servers_numbers.shift()
+        optimization.push(['x',server[2]])
+    }
+
+    optimization = optimization.sort((first, second) => {
+        return (first[first-1] - second[second-1])
+    })
+    optimization = optimization.map(elem => {
+        if(elem[0] === 'x'){
+            return elem[0]
+        }
+        return [elem[0],elem[1],elem[2]]
+    })
+    return optimization
+}
+
 const index = function(){
     fs.readdir('./inputFiles', (err, files) => {
         files.forEach(file => {
