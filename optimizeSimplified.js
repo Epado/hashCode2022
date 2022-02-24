@@ -37,12 +37,12 @@ function getRightDevs(devs, project) {
   }
 
   toRet.forEach((dev, i) => {
-    const akill = dev.skills.find(
+    const skillDev = dev.skills.find(
       (s) =>
         s.name === project.reqSkills[i].name &&
         s.currentLv === project.reqSkills[i].lv
     );
-    if (akill) akill.currentLv++;
+    if (skillDev) skillDev.currentLv++;
   });
 
   return toRet;
