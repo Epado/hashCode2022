@@ -1,7 +1,7 @@
 /**
  *
  * @param {*} devs
- * @param {[{name: str, bestBefore: int, duration: int, fullScore: int, actualScore: int, reqSkills: [{AAAA}]}]} projects
+ * @param {[{name: str, bestBefore: int, duration: int, fullScore: int, actualScore: int, reqSkills: [{ name: str, initLv: int, actLv: int }]}]} projects
  * @returns
  */
 export default function optimizeSimplified(devs, projects) {
