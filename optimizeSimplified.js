@@ -29,12 +29,12 @@ function getRightDevs(devs, project) {
     const chosenDev = sorted.shift();
     if (chosenDev) {
       toRet.push(chosenDev);
-      avDevs.slice(
+      avDevs.splice(
         avDevs.findIndex((d) => d.name === chosenDev.name),
         1
       );
       chosenDev.skills.find((s) => s.name === skill.name).currentLv++;
-    }
+    } else return [];
   }
 
   return toRet;
