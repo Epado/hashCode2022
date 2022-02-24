@@ -1,6 +1,6 @@
 function getSkillLv(dev, skillName) {
   const skill = dev.skills.find((s) => s.name === skillName);
-  console.log({ skill });
+  //console.log({ skill });
   skill ? skill.actLv : 0;
 }
 
@@ -16,16 +16,16 @@ function getRightDevs(devs, project) {
   for (const skill of project.reqSkills) {
     const filtered = avDevs.filter((dev) => {
       return dev.skills.some((s) => {
-        console.log({ skill, s });
+        //console.log({ skill, s });
         return s.name === skill.name && s.currentLv >= skill.lv;
       });
     }); // tra tutti quelli che hanno la skill
-    console.log({ filtered });
+    //console.log({ filtered });
     const sorted = filtered.sort(
       (dev1, dev2) =>
         getSkillLv(dev1, skill.name) - getSkillLv(dev2, skill.name) // ordinali in ordine crescente
     );
-    console.log({ sorted });
+    //console.log({ sorted });
     const chosenDev = sorted.shift();
     if (chosenDev) {
       toRet.push(chosenDev);
@@ -37,9 +37,13 @@ function getRightDevs(devs, project) {
   }
 
   toRet.forEach((dev, i) => {
-    dev.skills.find((s) => s.name === project.reqSkills[i].name).currentLv++;
-  })
-
+    const akill = dev.skills.find(
+      (s) =>
+        s.name === project.reqSkills[i].name &&
+        s.currentLv === project.reqSkills[i].lv
+    );
+    if (akill) akill.currentLv++;
+  });
 
   return toRet;
 }
@@ -56,7 +60,7 @@ export default function optimizeSimplified(devs, projects) {
   );
 
   const toRet = [];
-  // console.log({ project: orderedProject[1], s: orderedProject[1].reqSkills });
+  // //console.log({ project: orderedProject[1], s: orderedProject[1].reqSkills });
   // const project = orderedProject[1];
   const upperBound = orderedProject.length * 2;
   let i = 0;
@@ -64,10 +68,10 @@ export default function optimizeSimplified(devs, projects) {
     if (i++ > upperBound) break;
     // console.log({ project });
     const rightDevs = getRightDevs(devs, project);
-    // console.log({ rightDevs });
+    // //console.log({ rightDevs });
     if (rightDevs.length > 0) {
       const rightDevsNames = rightDevs.map((d) => {
-        console.log(d);
+        //console.log(d);
         return d.name;
       });
       toRet.push({
@@ -80,6 +84,6 @@ export default function optimizeSimplified(devs, projects) {
     }
   }
 
-  console.log(toRet);
+  //console.log(toRet);
   return toRet;
 }
